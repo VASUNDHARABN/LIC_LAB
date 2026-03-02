@@ -386,4 +386,323 @@ UGB = 2.094 × 136.405 MHz
 UGB ≈ 285.63 MHz  
 0 dB frequency ≈ 316.227 MHz  
 
+# Circuit 3
+# Common-Source Amplifier with Active PMOS Load and Source Degeneration
 
+## Introduction
+
+This circuit represents a CMOS common-source amplifier implemented using TSMC 0.18 µm technology. The topology consists of:
+- **M1 (NMOS)** – Main amplifying transistor  
+- **M2 (NMOS)** – Source degeneration transistor  
+- **M3 (PMOS)** – Active load transistor
+
+ A diode-connected MOSFET has:
+Gate connected to Drain
+Therefore:VGS = VDS
+
+Why it is used:
+-Acts like a nonlinear resistor
+-lways operates in saturation (if VGS > VTH)
+-Provides bias stability
+-Increases output resistance compared to resistor load
+
+
+Small-Signal Model
+A diode-connected NMOS behaves like:
+1/gm in parallel with ro
+So its effective resistance ≈ 1/gm (if gm ≫ 1/ro)
+This reduces gain compared to a current source load but improves linearity and bias stability.
+
+# DC Analysis
+<img width="740" height="596" alt="image" src="https://github.com/user-attachments/assets/27674bba-aec6-4449-b5b7-2141986fa7c9" />
+Given:
+ID = 200 µA
+VOV = 0.2 V
+VDD = 1.2 V
+VTHn = 0.366 V
+|VTHp| = 0.39 V
+λ ≈ 0.1 V⁻¹
+
+## M3 (Diode-Connected NMOS)
+
+VGS3 = VTHn + VOV
+VGS3 = 0.366 + 0.2
+VGS3 = 0.566 V
+
+Since diode connected:
+VS1 = VGS3 = 0.566 V
+
+Check saturation:
+VDS3 = VGS3 = 0.566 V
+Condition:
+VDS3 ≥ VOV 
+0.566 ≥ 0.2  
+M3 is in saturation.
+
+## M1 (Common Source NMOS)
+
+To maintain same VOV:
+
+VGS1 = VTHn + VOV
+VGS1 = 0.366 + 0.2
+VGS1 = 0.566 V
+VS1 = 0.566 V
+Therefore:
+Vin = VGS1 + VS1
+Vin = 0.566 + 0.566
+Vin = 1.132 V  
+
+Now check saturation of M1.
+For saturation:
+VDS1 ≥ VOV
+VDS1 = Vout − VS1
+
+## M2 (PMOS Load)
+
+For PMOS:
+VSG2 = |VTHp| + VOV
+VSG2 = 0.39 + 0.2
+VSG2 = 0.59 V
+
+Check saturation:
+VSD2 ≥ VOV
+If Vout ≈ 0.8 V:
+VSD2 = VDD − Vout
+VSD2 = 1.2 − 0.8
+VSD2 = 0.4 V
+
+0.4 ≥ 0.2  
+PMOS is in saturation.
+
+# CMOS Width Calculation (VOV = 0.1 V)
+
+## Given Parameters
+
+ID = 200 µA  
+VOV = 0.1 V  
+L = 0.18 µm = 0.18 × 10⁻⁶ m  
+µn = 273.809 cm²/Vs = 0.02738 m²/Vs  
+µp = 115.689 cm²/Vs = 0.01157 m²/Vs  
+Tox = 4.1 × 10⁻⁹ m  
+εr = 3.9  
+ε0 = 8.854 × 10⁻¹² F/m  
+
+## Oxide Capacitance
+
+Cox = (εr ε0) / Tox  
+Cox = (3.9 × 8.854 × 10⁻¹²) / (4.1 × 10⁻⁹)  
+Cox ≈ 8.42 × 10⁻³ F/m²  
+
+## Drain Current Equation (Saturation)
+
+ID = (1/2) µ Cox (W/L) VOV²  
+Rearranging for W:
+W = (2 ID L) / (µ Cox VOV²)
+
+#  NMOS Width Calculation
+
+Wn = (2 × 200×10⁻⁶ × 0.18×10⁻⁶)  
+     / (0.02738 × 8.42×10⁻³ × (0.1)²)
+
+Numerator:
+= 7.2 × 10⁻¹¹  
+Denominator:
+= 2.305 × 10⁻⁶  
+Wn = 3.12 × 10⁻⁵ m  
+Wn = 31.2 µm  
+
+###  NMOS Width
+
+Wn ≈ 31 µm  
+
+(M1 and M3 if identical)
+
+#  PMOS Width Calculation
+
+Wp = (2 × 200×10⁻⁶ × 0.18×10⁻⁶)  
+     / (0.01157 × 8.42×10⁻³ × (0.1)²)
+
+Denominator:
+= 9.74 × 10⁻⁷  
+Wp = 7.39 × 10⁻⁵ m  
+Wp = 73.9 µm  
+### PMOS Width
+Wp ≈ 74 µm 
+
+# Final Device Sizing
+| Transistor | Width (µm) | Length (µm) |
+|------------|------------|-------------|
+| NMOS (M1, M3) | 31 | 0.18 |
+| PMOS (M2) | 74 | 0.18 |
+
+## Design Notes
+• PMOS width is larger due to lower mobility  
+• Ratio Wp/Wn ≈ 2.3  
+• All devices biased at ID = 200 µA  
+• Designed for VOV = 0.1 V (low-voltage 1.2 V operation)
+
+# Transient Analysis
+<img width="1915" height="845" alt="image" src="https://github.com/user-attachments/assets/37864148-428f-4cb1-97f7-3902c6be3c34" />
+# Theoretical Calculations
+
+## Transconductance
+
+gm1 = gm2 = (2ID / VOV)
+gm = (2 × 200×10⁻⁶) / 0.2  
+gm = 2 × 10⁻³ S  
+gm = 2 mS  
+
+## Output Resistance
+
+ro2 = 1 / (λ ID)
+ro = 1 / (0.1 × 200×10⁻⁶)  
+ro = 1 / (20×10⁻⁶)  
+ro = 50 kΩ  
+
+## Voltage Gain
+
+Av = - gm1 × ro2/(1+gm1/gm3)  
+Av = - (2mS × 50kΩ)/2  
+Av = -50 V/V  
+
+Magnitude:
+|Av| = 50  
+
+In dB:
+Av(dB) = 20 log(50)  
+Av(dB) = 33.97 dB  
+
+You calculated:
+Av= - gm1* ro2/(1+gm1/gm3)
+Av = 50  
+
+Av(dB) = 20 log(50)  
+Av(dB) = 33.97 dB  
+
+(This corresponds to effective gain reduction due to degeneration/loading.)
+## Practical gain 
+Av = ΔVout / ΔVin
+Av = 730.82-559.02/20
+Av = 8.59 V/V
+
+In dB , AvdB = 20 log(8.59)
+          = 18.679 dB
+| Parameter | Theoretical Gain | Practical Gain |
+|------------|------------------|----------------|
+| Av (V/V) | 50 V/V | 8.59 V/V |
+| Av (dB) | 33.97 dB | 18.679 dB |
+
+# AC Analysis
+<img width="1888" height="777" alt="image" src="https://github.com/user-attachments/assets/e8e34ea1-c0bc-4030-988e-7a1311661de3" />
+Midband Gain:
+
+Av = 18.630 dB  
+3 dB bandwidth level:
+18.630 − 3 = 15.630 dB  
+Frequency at 15.630 dB:
+f3dB = 300.3852 MHz  
+
+# Unity Gain Bandwidth
+<img width="1915" height="810" alt="image" src="https://github.com/user-attachments/assets/0103088f-bf9c-46c9-9960-8fa26ba751a5" />
+
+UGB (0 dB frequency) ≈ 5.139 GHz  
+
+Using approximation:
+UGB = Av(linear) × f3dB  
+Convert gain to linear:
+Av(linear) = 10^(18.630/20)  
+Av(linear) ≈ 8.59  
+
+UGB ≈ 8.59 × 300.3852 MHz  
+UGB ≈ 2.58 GHz  
+
+Higher cutoff Frequency, fH= 300.385MHz
+
+Lower cutoff frequency, fL=0Hz
+
+• Smaller channel length → larger λ → lower ro → lower gain  
+• Increasing L reduces λ and improves gain  
+• In 180 nm technology, CLM effect is noticeable
+
+# Comparison of Three MOSFET Amplifier Circuits (180 nm CMOS)
+
+##  Performance Comparison Table
+
+| Parameter | Circuit 1: CS + PMOS Load + RS | Circuit 2: Cascode CS | Circuit 3: CS + Diode Load |
+|------------|--------------------------------|------------------------|----------------------------|
+| Topology | Common Source + Active Load + Source Degeneration | Cascode CS + PMOS Load | CS + Diode-Connected Load |
+| ID | 200 µA | 200 µA | 200 µA |
+| VDD | 1.2 V | 1.2 V | 1.2 V |
+| Power | 0.24 mW | 0.24 mW | 0.24 mW |
+| Theoretical Gain (dB) | 23.74 dB | −6.93 dB (with degeneration) | 33.97 dB |
+| Practical Gain (dB) | 16 dB | 6.42 dB | 18.68 dB |
+| Midband Gain (AC) | 16.47 dB | 7.857 dB | 18.63 dB |
+| Bandwidth | 371.5 MHz | 136.4 MHz | 300.38 MHz |
+| UGB (Simulated) | 4.03 GHz | 316 MHz | 5.139 GHz |
+| Output Resistance | Moderate | High (cascode effect) | Lower (due to diode load) |
+| Linearity | Improved (RS present) | Good | Moderate |
+| Stability | Good | Very Good | Good |
+
+# Applications (Brief)
+
+## Circuit 1 – CS with PMOS Active Load + Source Degeneration
+- Audio and sensor pre-amplifiers  
+- Analog front-end stages  
+- ADC driver (low–moderate speed)  
+- Biomedical signal amplification  
+- General low-power CMOS amplification  
+
+## Circuit 2 – Cascode CS Amplifier
+- RF and high-frequency amplifiers  
+- Operational amplifier gain stages  
+- Current mirrors and precision bias circuits  
+- Low-noise amplifiers (LNA)  
+- High-output-resistance applications  
+
+## Circuit 3 – CS with Diode-Connected Load
+- Simple voltage amplification stages  
+- On-chip bias circuits  
+- Compact low-power analog blocks  
+- Current-to-voltage converters  
+- Basic CMOS analog building blocks  
+
+**Summary:**  
+Circuit 1 → Balanced performance  
+Circuit 2 → High-frequency/high-output resistance  
+Circuit 3 → Simple and compact design  
+
+#  Result
+
+1. All three circuits operate within power specification (≤ 0.4 mW).
+2. Circuit 3 gives the highest practical midband gain (~18.6 dB).
+3. Circuit 1 provides balanced performance with good bandwidth (~371 MHz).
+4. Circuit 2 (Cascode) improves output resistance but practical gain remains low.
+5. Circuit 3 achieves highest UGB (~5.1 GHz).
+6. Source degeneration in Circuit 1 improves linearity but reduces gain.
+7. Cascode structure increases theoretical output resistance.
+8. Diode-connected load reduces gain but simplifies biasing.
+9. Gain-bandwidth trade-off clearly observed across circuits.
+10. All circuits validate 180 nm CMOS analog design principles.
+
+
+# Inference
+# Interpretation of Results
+
+1. All three circuits successfully operate at 1.2 V supply with ID = 200 µA and satisfy the power constraint (< 0.4 mW).
+2. Practical gain is lower than theoretical gain in all circuits due to:
+   - Channel Length Modulation (finite ro)
+   - Parasitic capacitances
+   - Short-channel effects (180 nm technology)
+3. Circuit 1 (CS + RS + PMOS load) shows balanced performance:
+   - Moderate gain
+   - Wide bandwidth
+   - Improved linearity due to source degeneration
+4. Circuit 2 (Cascode) increases output resistance theoretically, but limited voltage headroom in 1.2 V supply reduces practical gain.
+5. Circuit 3 (Diode-connected load) provides higher gain than Circuit 2 and simple biasing, but gain is limited by 1/gm load behavior.
+6. Gain–Bandwidth trade-off is clearly observed:
+   - Higher gain reduces bandwidth.
+   - Lower gain increases bandwidth.
+7. Cascode reduces Miller effect and improves high-frequency behavior, but consumes voltage headroom.
+8. Source degeneration improves stability and linearity but reduces voltage gain.
+9. Smaller channel length (180 nm) increases λ, reducing output resistance and gain.
+10. Overall, practical performance confirms real CMOS non-ideal effects and validates analog design principles under low-voltage operation.
