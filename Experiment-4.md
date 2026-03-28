@@ -791,26 +791,26 @@ g_mn = 2.94 mS
 
 ### Step 2: Output Resistance
 r_on = 1 / (λ I_D)  
-r_on = 1 / (0.1 × 0.5 × 10^-3)  
-r_on = 20 kΩ  
+r_on = 1 / (0.1 × 0.543 × 10^-3)  
+r_on = 11.156 kΩ  
 
 ### Step 3: Practical Output Resistance
 Due to non-ideal current mirror:
 R_out ≈ r_on  
-R_out ≈ 20 kΩ
+R_out ≈ 11.156 kΩ
 
 ### Step 4: Gain
 A_v = g_mn × R_out  
-A_v = 2.94 × 10^-3 × 20 × 10^3  
-A_v = 58.8 V/V  
+A_v = 2.94 × 10^-3 × 11.156 × 10^3  
+A_v = 32.8 V/V  
 
 ### Step 5: Gain in dB
-A_v(dB) = 20 log(58.8)  
-A_v(dB) ≈ 35.4 dB  
+A_v(dB) = 20 log(32.8)  
+A_v(dB) ≈ 30.31 dB  
 
 ## Final Result
-A_v ≈ 58.8 V/V  
-A_v ≈ 35.4 dB  
+A_v ≈ 32.8 V/V  
+A_v ≈ 30.31 dB  
 
 ## Conclusion
 - This matches simulation (~32.5 dB) closely  
@@ -825,8 +825,8 @@ A_v ≈ 35.4 dB
 |------------------------|--------------------------------|-------------------------------|
 | Method                 | From waveform (ΔVout/ΔVin)     | Small-signal analysis         |
 | Expression             | ΔVout / ΔVin                   | g_m × R_out                   |
-| Gain (V/V)             | 40.84 V/V                      | 44.1 V/V                      |
-| Gain (dB)              | 32.22 dB                       | 32.9 dB (~33 dB)              |
+| Gain (V/V)             | 40.84 V/V                      | 32.8 V/V                      |
+| Gain (dB)              | 32.22 dB                       | 30.31 dB                      |
 
 ## AC Analysis
 <img width="1911" height="832" alt="image" src="https://github.com/user-attachments/assets/394ae933-1f51-472b-9dc9-272db8ff3a60" />
@@ -878,7 +878,7 @@ UGB is not directly visible in the graph, so it is calculated theoretically.
 | Load Type | Resistive (R_D) | Active load (PMOS mirror) | Active load + bias (VB1, VB2) |
 | Tail Source | Ideal current source | NMOS current source | NMOS current source (bias-controlled) |
 | Gain (Practical) | 4.63 V/V (~12.6 dB) | 1.89 V/V (~5.55 dB) | 40.84 V/V (~32.22 dB) |
-| Gain (Theoretical) | ~4.5 V/V (~13 dB) | ~1.7 V/V (~4.7 dB) | ~58.8 V/V (~35 dB) |
+| Gain (Theoretical) | ~4.5 V/V (~13 dB) | ~1.7 V/V (~4.7 dB) | ~32.8 V/V (~30.31 dB) |
 | Output Resistance | Low (due to R_D) | High (active load) | Very high (active load + biasing) |
 | Bandwidth | 10.186 GHz | 2.96 GHz | 411.958 MHz |
 | UGB | ~48.68 GHz | ~5.60 GHz | ~17.85 GHz |
