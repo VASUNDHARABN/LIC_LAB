@@ -5,8 +5,8 @@
 
 ## Introduction
 A differential amplifier is an analog circuit that amplifies the difference between two input voltages while rejecting any signal that is common to both inputs. This property is known as common-mode rejection and is essential for minimizing noise and interference in electronic systems.
-The two input signals are defined as:
 
+The two input signals are defined as:
 V_id = V_in1 - V_in2  
 V_cm = (V_in1 + V_in2) / 2  
 where V_id is the differential input voltage and V_cm is the common-mode voltage.
