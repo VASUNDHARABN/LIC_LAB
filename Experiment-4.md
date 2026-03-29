@@ -190,7 +190,53 @@ Full conduction limit:
 
 |V_id| ≤ √2 × V_ov  
 |V_id| ≤ 0.48 V  
+
+## Differential Amplifier Operation Cases
+
+## Case (i): When V_in1 = V_in2
+
+- Transistors M1 and M2 are identical and equally biased  
+- Tail current splits equally:
+  I_SS = I_D1 + I_D2  
+  I_D1 = I_D2 = I_SS / 2  
+
+- Output voltages are equal:
+  V_out1 = V_DD - I_D1 × R_D  
+  V_out2 = V_DD - I_D2 × R_D  
+- Since I_D1 = I_D2:
+ V_out1 = V_out2  
+
 <img width="1335" height="748" alt="image" src="https://github.com/user-attachments/assets/2ab247f5-b9ea-45e5-980a-d7ffb167a683" />
+
+## Case (ii): When V_in1 > V_in2
+
+- Transistor M1 conducts more current:
+  I_D1 > I_D2  
+- Current redistribution:
+  I_SS = I_D1 + I_D2  
+
+- Output voltages:
+  V_out1 = V_DD - I_D1 × R_D  
+  V_out2 = V_DD - I_D2 × R_D  
+- Since I_D1 > I_D2:
+  V_out1 < V_out2  
+
+## Case (iii): When V_in1 < V_in2
+
+- Transistor M2 conducts more current:
+  I_D2 > I_D1  
+- Current redistribution:
+  I_SS = I_D1 + I_D2  
+
+- Output voltages:
+  V_out1 = V_DD - I_D1 × R_D  
+  V_out2 = V_DD - I_D2 × R_D  
+- Since I_D2 > I_D1:
+  V_out2 < V_out1  
+
+## Final Observation
+- The differential amplifier converts input voltage difference into current difference and then into output voltage difference.  
+- Outputs are always opposite in nature (one increases while the other decreases).  
 
 ## Explanation of Operating Ranges 
 
